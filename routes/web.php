@@ -16,4 +16,8 @@ use \App\Http\Controllers\HomeController;
 
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index'])->name('dashboard.index')->middleware('auth');
+//Route::get('/', [HomeController::class, 'index'])->name('dashboard.index')->middleware('auth');
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('/home',[HomeController::class,'index'])->name('dashboard.home.index');
+});

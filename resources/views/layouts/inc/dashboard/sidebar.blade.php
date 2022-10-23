@@ -15,7 +15,7 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('dashboard.index') }}">
+            <a class="nav-link" href="{{ route('dashboard.home.index') }}">
                 <span class="menu-title">Inicio</span>
                 <i class="mdi mdi-home menu-icon"></i>
             </a>

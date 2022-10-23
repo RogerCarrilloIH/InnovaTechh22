@@ -28,15 +28,15 @@
 
 .dataTables_paginate li.page-item .page-link{
     color: #ffffff;
-    background-color: #b66dff;
-    border-color: #b66dff;
+    background-color: #2d37c7;
+    border-color: #2d37c7;
     padding: 0.5rem 1.3rem;
     box-shadow: none;
 }
 .dataTables_paginate li.page-item.active .page-link,
 .dataTables_paginate li.page-item .page-link:hover{
-    background-color: #c183ff;
-    border-color: #bd7cff;
+    background-color: #2d37c7;
+    border-color: #2d37c7;
 }
 
 

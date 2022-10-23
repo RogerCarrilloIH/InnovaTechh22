@@ -1,7 +1,7 @@
 <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center logonav">
-        <a class="navbar-brand brand-logo" href="{{ route('dashboard.index') }}">InnovaTechh22</a>
-        <a class="navbar-brand brand-logo-mini" href="{{ route('dashboard.index') }}">IT22</a>
+        <a class="navbar-brand brand-logo" href="{{ route('dashboard.home.index') }}">InnovaTechh22</a>
+        <a class="navbar-brand brand-logo-mini" href="{{ route('dashboard.home.index') }}">IT22</a>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-stretch">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -36,7 +36,7 @@
                     <a class="dropdown-item" href="{{ route('logout') }}" 
                         onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
-                        <i class="mdi mdi-logout me-2 text-primary"></i> Cerrar sesión
+                        <i class="mdi mdi-logout me-2 text-info"></i> Cerrar sesión
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
