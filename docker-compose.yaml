@@ -1,0 +1,117 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:10
+    ports:
+      - 5432:5432/tcp
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - airflow-local-db-volume:/var/lib/postgresql/data
+      - ./data:/home/data
+      - ./data/creacion_tablas.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      retries: 5
+    restart: always
+    networks:
+      - pyspark-net
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+  airflow-webserver:
+    image: airflow-base
+    build:
+      dockerfile: Dockerfile
+      context: .
+    command: webserver
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./data:/home/airflow/data
+      - ./datalake:/home/airflow/datalake
+      - ./drivers:/home/airflow/drivers   
+    ports:
+      - 8080:8080
+    environment:
+      _AIRFLOW_DB_UPGRADE: 'true'
+      _AIRFLOW_WWW_USER_CREATE: 'true'
+      _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME}
+      _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD}
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: ${POSTGRES_FLAVOR}+${POSTGRES_CLIENT}://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres/${POSTGRES_DB}
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__FERNET_KEY: ''
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    restart: always
+    networks:
+      - pyspark-net
+    deploy:
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - postgres
+
+  airflow-scheduler:
+    image: airflow-base
+    build:
+      dockerfile: Dockerfile
+      context: .
+    command: scheduler
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./data:/home/airflow/data
+      - ./datalake:/home/airflow/datalake
+      - ./drivers:/home/airflow/drivers   
+    environment:
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: ${POSTGRES_FLAVOR}+${POSTGRES_CLIENT}://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres/${POSTGRES_DB}
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__FERNET_KEY: ''
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    restart: always
+    networks:
+      - pyspark-net
+    deploy:
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - postgres
+
+  jupyter-spark:
+    image: jupyter/pyspark-notebook:spark-3.1.2
+    ports:
+      - "8888:8888/tcp"
+    volumes:
+      - ./notebooks:/home/jovyan/notebooks
+      - ./datalake:/home/jovyan/datalake
+      - ./data:/home/jovyan/data
+      - ./drivers:/home/jovyan/drivers
+    networks:
+      - pyspark-net
+    deploy:
+      restart_policy:
+        condition: on-failure
+    #command: "jupyter lab --ip='*' --allow-root --no-browser --port=8888 --NotebookApp.password='' --NotebookApp.token=''"
+
+
+  adminer:
+    image: adminer:latest
+    ports:
+      - "8181:8181/tcp"
+    networks:
+      - pyspark-net
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+networks:
+  pyspark-net:
+
+volumes:
+  airflow-local-db-volume:

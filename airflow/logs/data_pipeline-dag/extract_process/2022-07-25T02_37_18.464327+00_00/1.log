@@ -1,0 +1,23 @@
+[2022-07-25 02:37:36,717] {taskinstance.py:851} INFO - Dependencies all met for <TaskInstance: data_pipeline-dag.extract_process 2022-07-25T02:37:18.464327+00:00 [queued]>
+[2022-07-25 02:37:36,832] {taskinstance.py:851} INFO - Dependencies all met for <TaskInstance: data_pipeline-dag.extract_process 2022-07-25T02:37:18.464327+00:00 [queued]>
+[2022-07-25 02:37:36,832] {taskinstance.py:1042} INFO - 
+--------------------------------------------------------------------------------
+[2022-07-25 02:37:36,832] {taskinstance.py:1043} INFO - Starting attempt 1 of 1
+[2022-07-25 02:37:36,832] {taskinstance.py:1044} INFO - 
+--------------------------------------------------------------------------------
+[2022-07-25 02:37:36,858] {taskinstance.py:1063} INFO - Executing <Task(PythonOperator): extract_process> on 2022-07-25T02:37:18.464327+00:00
+[2022-07-25 02:37:36,863] {standard_task_runner.py:52} INFO - Started process 4339 to run task
+[2022-07-25 02:37:36,867] {standard_task_runner.py:76} INFO - Running: ['airflow', 'tasks', 'run', 'data_pipeline-dag', 'extract_process', '2022-07-25T02:37:18.464327+00:00', '--job-id', '3', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/sample/Ejemplo_Airflow.py', '--cfg-path', '/tmp/tmp1s52e08n', '--error-file', '/tmp/tmp9gsct7m6']
+[2022-07-25 02:37:36,870] {standard_task_runner.py:77} INFO - Job 3: Subtask extract_process
+[2022-07-25 02:37:36,933] {logging_mixin.py:104} INFO - Running <TaskInstance: data_pipeline-dag.extract_process 2022-07-25T02:37:18.464327+00:00 [running]> on host 10245bbd6d70
+[2022-07-25 02:37:37,158] {taskinstance.py:1257} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=your.email@domain.com
+AIRFLOW_CTX_DAG_OWNER=Airflow
+AIRFLOW_CTX_DAG_ID=data_pipeline-dag
+AIRFLOW_CTX_TASK_ID=extract_process
+AIRFLOW_CTX_EXECUTION_DATE=2022-07-25T02:37:18.464327+00:00
+AIRFLOW_CTX_DAG_RUN_ID=manual__2022-07-25T02:37:18.464327+00:00
+[2022-07-25 02:38:10,860] {python.py:118} INFO - Done. Returned value was: None
+[2022-07-25 02:38:10,921] {taskinstance.py:1166} INFO - Marking task as SUCCESS. dag_id=data_pipeline-dag, task_id=extract_process, execution_date=20220725T023718, start_date=20220725T023736, end_date=20220725T023810
+[2022-07-25 02:38:11,109] {taskinstance.py:1220} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2022-07-25 02:38:11,149] {local_task_job.py:146} INFO - Task exited with return code 0
